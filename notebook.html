@@ -1,41 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/marked"></script>
-    <title>Markdown</title>
+    <title>Markdown Editer</title>
     <style>
+
+        body{
+            margin: 0;
+        }
+
         #notebook{
             display: flex;
         }
-        .body{
-            margin: 0%;
-        }
+
         .notebook,.input,.preview{
             height:1000px;
         }
+
         .notebook{
             background-color: bisque;
-            width:20%;
+            width: 20%;
         }
+
         textarea{
             width: 98%;
             height: 100%;
-            background-color: aquamarine;
+            background-color: aquamarine
         }
+
         .input{
             background-color: aquamarine;
-            width:40%;
+            width: 40%;
         }
+    
         .preview{
             background-color: aqua;
             width:40%;
         }
+    
     </style>
 </head>
+
 <body>
     <div id="notebook">
         <div class="notebook">
@@ -43,9 +53,9 @@
             <div v-for="note in notes">
                 {{note.title}}
             </div>
-        </div>
+        </div>    
         <div class="input">
-            <textarea v-model='content'></textarea>
+            <textarea v-model="content"></textarea>
         </div>
         <div class="preview" v-html="markdownPreview">
         </div>
@@ -56,32 +66,33 @@
         // console.log(html)
         // const html_strong=marked('**notice**')
         // console.log(html_strong)
-        var vm=new  Vue({
+        var vm=new Vue({
             el:"#notebook",
-            data: {
-                content:''
+            data:{
+                content:'',
+                notes:[],
             },
             computed:{
-                markdownPreview() {
+                markdownPreview(){
                     return marked(this.content)
                 }
             },
-            watch: {
-                content(val, olval) {
-                    console.log("new: ", val, "old: ", oldval)
-                    localStorage.setItem('content', val)
+            watch:{
+                content(val,oldval){
+                   console.log("new: ",val,"old:",oldval)
+                   localStorage.setItem('content',val)
                 }
             },
             created(){
                 this.content=localStorage.getItem('content') || "you can write in **markdown**"
             },
-            methods: {
-                addNote() {
+            methods:{
+                addNote(){
                     console.log("add note is called")
-                    const time=Date.now()
+                    const time=Date.now
                     const note={
                         id:String(time),
-                        title:'New note'+(this.notes.length+1),
+                        title:'New Note'+(this.notes.length+1),
                         content:'**Hi**',
                         created:time,
                         favorite:false,
@@ -91,5 +102,7 @@
             }
         })
     </script>
+
 </body>
+
 </html>
