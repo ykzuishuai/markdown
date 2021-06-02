@@ -53,13 +53,22 @@
         // console.log(html_strong)
         var vm=new  Vue({
             el:"#notebook",
-            data:{
-                content:'text'
+            data: {
+                content:''
             },
             computed:{
-                markdownPreview(){
+                markdownPreview() {
                     return marked(this.content)
                 }
+            },
+            watch: {
+                content(val, olval) {
+                    console.log("new: ", val, "old: ", oldval)
+                    localStorage.setItem('content', val)
+                }
+            },
+            created(){
+                this.content=localStorage.getItem('content') || "you can write in **markdown**"
             }
         })
     </script>
